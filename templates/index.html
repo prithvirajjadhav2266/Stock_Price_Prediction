@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center my-4">Stock Price Prediction</h1>
+                <form method="post" class="mb-4">
+                    <div class="form-group">
+                        <label for="stock">Enter Stock Ticker:</label>
+                        <input type="text" id="stock" name="stock" class="form-control" placeholder="e.g., AAPL, GOOGL">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Predict</button>
+                </form>
+                {% if plot_path_ema_20_50 %}
+                    <h2 class="text-center">Closing Price vs Time (20 & 50 Days EMA)</h2>
+                    <div class="text-center">
+                        <img src="{{ url_for('static', filename='ema_20_50.png') }}" alt="EMA 20 & 50" class="img-fluid">
+                    </div>
+                {% endif %}
+                {% if plot_path_ema_100_200 %}
+                    <h2 class="text-center">Closing Price vs Time (100 & 200 Days EMA)</h2>
+                    <div class="text-center">
+                        <img src="{{ url_for('static', filename='ema_100_200.png') }}" alt="EMA 100 & 200" class="img-fluid">
+                    </div>
+                {% endif %}
+                {% if plot_path_prediction %}
+                    <h2 class="text-center">Prediction vs Original Trend</h2>
+                    <div class="text-center">
+                        <img src="{{ url_for('static', filename='stock_prediction.png') }}" alt="Prediction" class="img-fluid">
+                    </div>
+                {% endif %}
+                {% if data_desc %}
+                    <h2 class="text-center">Descriptive Statistics</h2>
+                    <div class="table-responsive">
+                        {{ data_desc|safe }}
+                    </div>
+                {% endif %}
+                {% if dataset_link %}
+                    <a href="{{ url_for('download_file', filename=dataset_link) }}" class="btn btn-success btn-block my-4" download>Download Dataset</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
